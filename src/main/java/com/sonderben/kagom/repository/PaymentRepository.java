@@ -1,9 +1,9 @@
 package com.sonderben.kagom.repository;
 
-import com.sonderben.kagom.entity.AddressEntity;
-import com.sonderben.kagom.entity.CustomerEntity;
+import com.sonderben.kagom.entity.Payments;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AddressRepository extends BaseRepository<AddressEntity,Long> {
+public interface PaymentRepository extends JpaRepository<Payments, Long> {
 }

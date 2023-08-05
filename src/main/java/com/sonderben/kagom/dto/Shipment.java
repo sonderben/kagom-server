@@ -1,0 +1,43 @@
+package com.sonderben.kagom.dto;
+
+import com.sonderben.kagom.entity.PackageEntity;
+import com.sonderben.kagom.entity.Payments;
+import com.sonderben.kagom.entity.ShipmentEntity;
+import com.sonderben.kagom.entity.ShipmentsStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.List;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Shipment {
+
+
+    public Shipment(ShipmentEntity shipmentEntity){
+        this.packages = shipmentEntity.getKMPackage();
+        this.status = shipmentEntity.getStatus();
+        this.distributionOriginName = shipmentEntity.getDistributionOrigin().getName();
+        this.distributionOriginAddress = shipmentEntity.getDistributionOrigin().getAddress().toStringAddress();
+        this.fullNameSender = shipmentEntity.getSender().getFirsName() + " " +shipmentEntity.getSender().getLastName();
+        this.idSender = shipmentEntity.getSender().getId();
+        this.id = shipmentEntity.getId();
+        this.payment = shipmentEntity.getPayments();
+        this.receiveDate = shipmentEntity.getReceivedDate();
+    }
+
+    Long id;
+    ShipmentsStatus status;
+    String distributionOriginName;
+    String distributionOriginAddress;
+    Long idSender;
+    String fullNameSender;
+    List<PackageEntity> packages;
+    Payments payment;
+    Date receiveDate;
+}
