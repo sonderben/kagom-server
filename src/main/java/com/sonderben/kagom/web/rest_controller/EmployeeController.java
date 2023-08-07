@@ -1,5 +1,6 @@
 package com.sonderben.kagom.web.rest_controller;
 
+import com.sonderben.kagom.dto.Login;
 import com.sonderben.kagom.entity.EmployeeEntity;
 import com.sonderben.kagom.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,15 @@ public class EmployeeController  {
         if (employee != null)
             return new ResponseEntity<>(em,HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Login login){
+        String jwt = service.login(login);
+        if (jwt != null)
+            return new ResponseEntity<>(jwt,HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
 

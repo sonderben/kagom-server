@@ -1,11 +1,16 @@
 package com.sonderben.kagom.service;
 
+import com.sonderben.kagom.dto.Login;
 import com.sonderben.kagom.entity.CustomerEntity;
+import com.sonderben.kagom.entity.EmployeeEntity;
+import com.sonderben.kagom.entity.Role;
 import com.sonderben.kagom.repository.CustomerRepository;
+import com.sonderben.kagom.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -46,6 +51,20 @@ public class CustomerService {
             if (ce==null)return null;
          repository.delete(ce);
          return ce;
+    }
+
+    public CustomerEntity findByEmail(String email){
+        return repository.findByEmail(email).orElse(null);
+    }
+
+    public String login(Login login){
+        CustomerEntity ce = repository.findByEmail(login.getEmail()).orElse(null);
+        System.out.println("cool: "+ce);
+        if (ce==null) return null;
+        //assert ce != null;
+        if (login.getPassword().equals(ce.getPassword()))
+            return Util.createToken(login.getEmail(),ce.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
+        return null;
     }
 
 }

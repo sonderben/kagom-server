@@ -1,9 +1,9 @@
 package com.sonderben.kagom.repository;
 
-import com.sonderben.kagom.entity.Invoices;
+import com.sonderben.kagom.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InvoiceRepository extends JpaRepository<Invoices, Long> {
+public interface RoleRepository extends JpaRepository<Role,Long> {
 }

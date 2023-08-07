@@ -7,12 +7,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @SpringBootApplication
+
 //@ComponentScan("com.sonderben.kagom")
 public class KagomApplication  {
 
@@ -25,12 +23,19 @@ public class KagomApplication  {
                             EmployeeRepository employeeRepo,
                             PackageRepository packageRepo,
                             ShipmentRepository shipmentRepo,
-                            InvoiceRepository invoiceRepo,
-                            PaymentRepository paymentRepo){
+                            PaymentRepository paymentRepo,
+                            RoleRepository roleRepository){
         return args -> {
 
-            /*PackageEntity packageEntity = PackageEntity.getExemple();
-            packageRepo.save(packageEntity);*/
+
+
+            Role[] roles = {new Role("CUSTOMER"),new Role("EMPLOYEE")};
+
+            roleRepository.saveAll( Arrays.asList(roles) );
+
+
+
+
             List<PackageEntity>packageEntities = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 packageEntities.add(PackageEntity.getExemple());
@@ -44,10 +49,11 @@ public class KagomApplication  {
 
 
             CustomerEntity customer = CustomerEntity.getExemple(distributionCenter,AddressEntity.getExemple());
-
+            customer.setRoles(Collections.singletonList(new Role(2L)));
             customerRepo.save( customer );
 
             EmployeeEntity employee = EmployeeEntity.getExemple(distributionCenter,AddressEntity.getExemple());
+            employee.setRoles(Collections.singletonList(new Role(2L)));
             employeeRepo.save(employee);
 
             ShipmentEntity shipmentEntity = ShipmentEntity.builder()
@@ -63,10 +69,9 @@ public class KagomApplication  {
 
             shipmentRepo.save(shipmentEntity);
 
-            Invoices invoices = Invoices.getExemple(shipmentEntity,employee);
-            invoiceRepo.save(invoices);
 
-            Payments payments = Payments.getExemple(invoices);
+
+            PaymentEntity payments = PaymentEntity.getExemple(shipmentEntity);
             paymentRepo.save(payments);
         };
     }

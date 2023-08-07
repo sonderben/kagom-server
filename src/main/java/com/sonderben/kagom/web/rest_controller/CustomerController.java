@@ -1,13 +1,17 @@
 package com.sonderben.kagom.web.rest_controller;
 
+import com.sonderben.kagom.dto.Login;
 import com.sonderben.kagom.entity.CustomerEntity;
+import com.sonderben.kagom.entity.Role;
 import com.sonderben.kagom.service.CustomerService;
+import com.sonderben.kagom.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "customers")
@@ -77,6 +81,15 @@ public class CustomerController  {
            return new ResponseEntity<>(ce,HttpStatus.OK);
        }
        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Login login){
+       String jwt = service.login(login);
+       if (jwt != null)
+           return new ResponseEntity<>(jwt+" m mal jere jwt a",HttpStatus.OK);
+       return new ResponseEntity<>("m pa jween ni",HttpStatus.NOT_FOUND);
+
     }
 
 

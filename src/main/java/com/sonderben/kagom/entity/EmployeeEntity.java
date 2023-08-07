@@ -6,8 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 @Entity
 @Data
@@ -18,6 +17,8 @@ public class EmployeeEntity extends BaseEntity{
     private String firsName;
     private String lastName;
     private String KMIdentity;
+
+    private String password;
 
     private String jobTitle;
 
@@ -32,6 +33,9 @@ public class EmployeeEntity extends BaseEntity{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private AddressEntity address;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = Collections.singletonList(new Role("EMPLOYEE"));
 
     @Transient
     private String address_;
@@ -53,10 +57,12 @@ public class EmployeeEntity extends BaseEntity{
         return EmployeeEntity.
                 builder()
                 .address(address)
+                .password("1234")
                 .firsName("first name: "+random.nextInt(10))
                 .lastName("last name: "+random.nextInt(10))
-                .email("genial@gmail.co: "+random.nextInt(10))
+                .email("user"/*+random.nextInt(10)*/)
                 .telephone("3245788 "+random.nextInt(9))
+                .roles( Collections.singletonList(new Role("EMPLOYEE")) )
                 .birthday(new Date(random.nextLong(1204482478)))
                 .jobTitle("cashier")
                 .KMIdentity("KMI: "+random.nextInt(10))

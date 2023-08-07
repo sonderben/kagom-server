@@ -1,7 +1,7 @@
 package com.sonderben.kagom.dto;
 
 import com.sonderben.kagom.entity.PackageEntity;
-import com.sonderben.kagom.entity.Payments;
+import com.sonderben.kagom.entity.PaymentEntity;
 import com.sonderben.kagom.entity.ShipmentEntity;
 import com.sonderben.kagom.entity.ShipmentsStatus;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,6 @@ public class Shipment {
         this.fullNameSender = shipmentEntity.getSender().getFirsName() + " " +shipmentEntity.getSender().getLastName();
         this.idSender = shipmentEntity.getSender().getId();
         this.id = shipmentEntity.getId();
-        this.payment = shipmentEntity.getPayments();
         this.receiveDate = shipmentEntity.getReceivedDate();
     }
 
@@ -38,6 +37,6 @@ public class Shipment {
     Long idSender;
     String fullNameSender;
     List<PackageEntity> packages;
-    Payments payment;
+    PaymentEntity payment;
     Date receiveDate;
 }

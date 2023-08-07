@@ -18,6 +18,7 @@ public class Customer extends BaseEntity {
     private Date birthday;
     private String KMIdentity;
     private String address;
+    private String password;
     private DistributionCenter distributionCenter;
 
 
@@ -27,6 +28,7 @@ public class Customer extends BaseEntity {
                 .firstName(customerEntity.getFirsName())
                 .lastName(customerEntity.getLastName())
                 .email(customerEntity.getEmail())
+                .password(customerEntity.getPassword())
                 .birthday(customerEntity.getBirthday())
                 .KMIdentity(customerEntity.getKMIdentity())
                 .address(customerEntity.getAddress().toString())

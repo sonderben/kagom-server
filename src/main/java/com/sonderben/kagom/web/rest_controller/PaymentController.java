@@ -1,16 +1,14 @@
 package com.sonderben.kagom.web.rest_controller;
 
-import com.sonderben.kagom.entity.AddressEntity;
-import com.sonderben.kagom.entity.Payments;
-import com.sonderben.kagom.service.AddressService;
+import com.sonderben.kagom.dto.PaymentInfo;
+import com.sonderben.kagom.entity.PaymentEntity;
+import com.sonderben.kagom.entity.PaymentMethod;
+import com.sonderben.kagom.entity.ShipmentEntity;
 import com.sonderben.kagom.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +21,8 @@ public class PaymentController  {
 
 
     @GetMapping("")
-    public ResponseEntity<List<Payments>> getAll() {
-        List<Payments> e = service.getAll();
+    public ResponseEntity<List<PaymentEntity>> getAll() {
+        List<PaymentEntity> e = service.getAll();
         if (e != null) {
             return new ResponseEntity<>(e, HttpStatus.OK);
         } else {
@@ -34,14 +32,22 @@ public class PaymentController  {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Payments>getOneById(@PathVariable Long id){
+    public ResponseEntity<PaymentEntity>getOneById(@PathVariable Long id){
 
-        Payments e = service.getOneById(id);
+        PaymentEntity e = service.getOneById(id);
         if (e != null) {
             return new ResponseEntity<>(e, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+    @PostMapping("/{id}")
+    public ResponseEntity<PaymentInfo>pay(@PathVariable Long id, @RequestParam PaymentMethod pm,@RequestParam(required = false) String paymentId){
+        PaymentInfo paymentInfo = service.pay(id,pm,paymentId);
+
+        if (paymentInfo != null)
+            return  new ResponseEntity<>(paymentInfo,HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

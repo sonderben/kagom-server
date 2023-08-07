@@ -40,8 +40,7 @@ public class ShipmentEntity extends BaseEntity{
     @Nonnull
     private List<PackageEntity> KMPackage;
     private ShipmentsStatus status;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Payments payments;
+
 
 
 }

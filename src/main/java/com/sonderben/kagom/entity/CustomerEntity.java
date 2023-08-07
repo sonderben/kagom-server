@@ -6,8 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 @Entity
 @Data
@@ -17,6 +16,7 @@ import java.util.Random;
 public class CustomerEntity extends BaseEntity {
     private String firsName;
     private String lastName;
+    private String password;
 
 
     @Column(columnDefinition = "varchar(30) default 'KMG'")
@@ -25,6 +25,9 @@ public class CustomerEntity extends BaseEntity {
     private String email;
     private String telephone;
     private Date birthday;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role>roles= Collections.singletonList(new Role("CUSTOMER"));
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id", referencedColumnName = "id")
@@ -62,11 +65,12 @@ public class CustomerEntity extends BaseEntity {
        return CustomerEntity.
                builder()
                .address(address)
-
+               .password("1234")
                .firsName("first name: "+random.nextInt(10))
                .lastName("last name: "+random.nextInt(10))
-               .email("genial@gmail.co: "+random.nextInt(10))
+               .email("user"/*+random.nextInt(10)*/)
                .telephone("3245788 "+random.nextInt(9))
+               .roles( Collections.singletonList(new Role("CUSTOMER")) )
                .birthday(new Date(  ))
                .KMIdentity("KMI: "+random.nextInt(10))
                .distributionCenter(distribution)

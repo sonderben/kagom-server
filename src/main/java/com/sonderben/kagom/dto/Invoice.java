@@ -1,7 +1,7 @@
 package com.sonderben.kagom.dto;
 
 import com.sonderben.kagom.entity.PackageEntity;
-import com.sonderben.kagom.entity.Payments;
+import com.sonderben.kagom.entity.PaymentEntity;
 import com.sonderben.kagom.entity.ShipmentEntity;
 import com.sonderben.kagom.entity.ShipmentsStatus;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,6 @@ public class Invoice {
         this.fullNameSender = shipmentEntity.getSender().getFirsName() + " " +shipmentEntity.getSender().getLastName();
         this.idSender = shipmentEntity.getSender().getId();
         this.id = shipmentEntity.getId();
-        this.payment = shipmentEntity.getPayments();
         this.receiveDate = shipmentEntity.getReceivedDate();
         this.invoiceItems = new ArrayList<>();
         this.totalPrice = 0;
@@ -37,6 +36,7 @@ public class Invoice {
             this.totalPrice +=p.getPrice();
             this.totalItbis += p.getItbis();
         }
+        this.total = totalItbis + totalPrice;
 
     }
 
@@ -47,9 +47,10 @@ public class Invoice {
     Long idSender;
     String fullNameSender;
     List<InvoiceItem> invoiceItems;
-    Payments payment;
+    PaymentEntity payment;
     double totalPrice;
     double totalItbis;
+    double total;
     Date receiveDate;
 
     @Data
