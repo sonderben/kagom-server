@@ -63,7 +63,7 @@ public class EmployeeController  {
         }
     }
 
-    @PostMapping("")
+    @PostMapping("/signup")
     public ResponseEntity<EmployeeEntity> save(@RequestBody EmployeeEntity em){
         EmployeeEntity employee = service.save(em);
         if (employee != null)
@@ -77,6 +77,14 @@ public class EmployeeController  {
         if (jwt != null)
             return new ResponseEntity<>(jwt,HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
+
+    }
+    @PutMapping("/{id}")
+    public void update(@PathVariable Long id){
 
     }
 

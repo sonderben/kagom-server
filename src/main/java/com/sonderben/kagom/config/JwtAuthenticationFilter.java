@@ -49,21 +49,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String email = decodedJWT.getSubject();
 
                 UsernamePasswordAuthenticationToken authentication;
-                //System.out.println("email: "+email);
                 System.out.println(decodedJWT.getClaims());
-                if (decodedJWT.getClaim("role").asList(String.class).contains("ROLE_CUSTOMER")) {
+                if (decodedJWT.getClaim("roles").asList(String.class).contains("CUSTOMER")) {
+                    System.err.println("roles customer");
                     CustomerEntity customer = customerService.findByEmail(email);
 
                     Collection<GrantedAuthority> grantedAuthorities =
                     customer.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
-                    System.out.println("authorities: "+grantedAuthorities.size());
                     authentication = new UsernamePasswordAuthenticationToken(email, null, grantedAuthorities);
 
                 } else {
+                    System.err.println("roles employees");
                     EmployeeEntity employee = employeeService.findByEmail(email);
                     Collection<GrantedAuthority> grantedAuthority =
                             employee.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
-                    System.out.println("authorities empl: "+grantedAuthority.size()+" "+grantedAuthority);
                     authentication = new UsernamePasswordAuthenticationToken(email, null, grantedAuthority);
                 }
 
@@ -84,7 +83,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String getSubjectJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        System.err.println(bearerToken);
+        System.err.println("BT: "+bearerToken);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length());
         }
@@ -99,7 +98,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             System.err.println("token: verified");
             return  a;
         } catch (JWTVerificationException e){
-            System.err.println(e.getMessage());
+            System.err.println("func/validateToken"+e.getMessage());
             return null;
         }
 

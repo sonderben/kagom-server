@@ -7,8 +7,10 @@ import com.sonderben.kagom.entity.Role;
 import com.sonderben.kagom.repository.CustomerRepository;
 import com.sonderben.kagom.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 public class CustomerService {
     @Autowired
     CustomerRepository repository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
     public List<CustomerEntity> findAll() {
@@ -32,6 +36,7 @@ public class CustomerService {
             e.setDistributionCenter_(e.getDistributionCenter().toStringDistribution());
             e.setInternationalAddresses_( e.getInternationalAddresses().toStringDistribution() );
             e.setAddress(null);
+            e.setRoles(null);
             e.setInternationalAddresses(null);
             e.setDistributionCenter(null);
         }
@@ -43,6 +48,8 @@ public class CustomerService {
     }
 
     public CustomerEntity save(CustomerEntity entity){
+        //entity.setRoles(Collections.singletonList(new Role(1L)));
+        entity.setPassword( passwordEncoder.encode(entity.getPassword()) );
         return repository.save(entity);
     }
 
@@ -62,7 +69,8 @@ public class CustomerService {
         System.out.println("cool: "+ce);
         if (ce==null) return null;
         //assert ce != null;
-        if (login.getPassword().equals(ce.getPassword()))
+        //if (login.getPassword().equals(ce.getPassword()))
+        if (passwordEncoder.matches(login.getPassword(), ce.getPassword()))
             return Util.createToken(login.getEmail(),ce.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
         return null;
     }

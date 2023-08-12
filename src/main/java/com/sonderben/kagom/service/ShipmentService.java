@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ShipmentService  {
@@ -26,20 +27,20 @@ public class ShipmentService  {
         return repository.findById(id).orElse(null);
     }
 
-    public List<Shipment> findBYReceiverOrSender(Long idReceiver, Long idSender){
-        if (idReceiver==null && idSender==null) return null;
+    public List<Shipment> findShipmentsBYReceiverOrSender(Long idReceiver, Long idSender){
 
-        CustomerEntity receiver = CustomerEntity.builder().build();
+
+        CustomerEntity receiver = new CustomerEntity();
         receiver.setId( idReceiver != null?idReceiver:idSender );
 
         List<ShipmentEntity>shipmentEntities;
         if (idReceiver!=null) {
             shipmentEntities = repository.findByReceiver(receiver);
-            System.out.println("findByReceiver");
+
         }
         else {
             shipmentEntities = repository.findBySender(receiver);
-            System.out.println("findBySender");
+
         }
 
         List<Shipment> shipments = null;
@@ -51,6 +52,60 @@ public class ShipmentService  {
         }
         return  shipments;
     }
+
+    public List<Shipment> searchShipments(Boolean isPaid,Long idReceiver, Long idSender){
+        if ( Objects.equals(idReceiver, idSender) ) return null;
+
+        if (isPaid == null) {
+            System.out.println("isPAid == null");
+            return findShipmentsBYReceiverOrSender(idReceiver,idSender);
+        }
+
+        List<ShipmentEntity> shipmentEntities;
+        if (isPaid) {
+            if (idSender !=null) {
+                shipmentEntities = repository.findShipmentPaidBySender(idSender);
+            }else {
+                shipmentEntities = repository.findShipmentPaidByReceiver(idReceiver);
+            }
+        }else {
+            if (idSender !=null) {
+                shipmentEntities = repository.findShipmentDueBySender(idSender);
+            }else {
+                shipmentEntities = repository.findShipmentDueByReceiver(idReceiver);
+            }
+        }
+        if (shipmentEntities != null){
+            List<Shipment> shipments;
+            shipments = new ArrayList<>(5);
+            for (ShipmentEntity es : shipmentEntities){
+                shipments.add( new Shipment(es) );
+            }
+            return shipments;
+        }
+        return null;
+    }
+
+    public List<Shipment> findShipmentDueBySenderOrReceiver(Long idReceiver, Long idSender){
+        if ( Objects.equals(idReceiver, idSender) ) return null;
+        List<ShipmentEntity> shipmentEntities;
+        if (idSender !=null) {
+            shipmentEntities = repository.findShipmentDueBySender(idSender);
+        }else {
+            shipmentEntities = repository.findShipmentDueByReceiver(idReceiver);
+        }
+        if (shipmentEntities != null){
+            List<Shipment> shipments;
+            shipments = new ArrayList<>(5);
+            for (ShipmentEntity es : shipmentEntities){
+                shipments.add( new Shipment(es) );
+            }
+            return shipments;
+        }
+        return null;
+    }
+
+
 
     public Invoice calculInvoice(Long idShipment){
         ShipmentEntity shipmentEntity = repository.findById(idShipment).orElse(null);

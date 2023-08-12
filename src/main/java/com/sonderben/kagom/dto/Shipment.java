@@ -24,8 +24,9 @@ public class Shipment {
         this.status = shipmentEntity.getStatus();
         this.distributionOriginName = shipmentEntity.getDistributionOrigin().getName();
         this.distributionOriginAddress = shipmentEntity.getDistributionOrigin().getAddress().toStringAddress();
-        this.fullNameSender = shipmentEntity.getSender().getFirsName() + " " +shipmentEntity.getSender().getLastName();
+        this.fullNameSender = shipmentEntity.getSender().getFullName();
         this.idSender = shipmentEntity.getSender().getId();
+        this.idReceiver = shipmentEntity.getReceiver().getId();
         this.id = shipmentEntity.getId();
         this.receiveDate = shipmentEntity.getReceivedDate();
     }
@@ -34,7 +35,7 @@ public class Shipment {
     ShipmentsStatus status;
     String distributionOriginName;
     String distributionOriginAddress;
-    Long idSender;
+    Long idSender,idReceiver;
     String fullNameSender;
     List<PackageEntity> packages;
     PaymentEntity payment;

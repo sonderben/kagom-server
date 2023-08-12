@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> {
 
-    @Query("SELECT  new EmployeeEntity ( c.id, c.firsName, c.lastName, c.email, c.telephone, c.birthday,c.jobTitle, c.KMIdentity) FROM EmployeeEntity c where c.id = :id")
+    @Query("SELECT  new EmployeeEntity ( c.id,  c.fullName, c.email, c.telephone, c.birthday,c.jobTitle, c.KMIdentity) FROM EmployeeEntity c where c.id = :id")
     EmployeeEntity findEmployee(@Param("id") Long id);
 
     Optional<EmployeeEntity> findByEmail(String email);

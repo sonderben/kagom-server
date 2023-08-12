@@ -24,7 +24,7 @@ public class Invoice {
         this.status = shipmentEntity.getStatus();
         this.distributionOriginName = shipmentEntity.getDistributionOrigin().getName();
         this.distributionOriginAddress = shipmentEntity.getDistributionOrigin().getAddress().toStringAddress();
-        this.fullNameSender = shipmentEntity.getSender().getFirsName() + " " +shipmentEntity.getSender().getLastName();
+        this.fullNameSender = shipmentEntity.getSender().getFullName();
         this.idSender = shipmentEntity.getSender().getId();
         this.id = shipmentEntity.getId();
         this.receiveDate = shipmentEntity.getReceivedDate();
@@ -33,8 +33,10 @@ public class Invoice {
         this.totalItbis = 0;
         for(PackageEntity p : shipmentEntity.getKMPackage()){
             this.invoiceItems.add( new InvoiceItem(p) );
-            this.totalPrice +=p.getPrice();
-            this.totalItbis += p.getItbis();
+        }
+        for (InvoiceItem it : invoiceItems){
+            this.totalPrice += it.getTotalPrice();
+            this.totalItbis += it.getTotalItbis();
         }
         this.total = totalItbis + totalPrice;
 
@@ -59,11 +61,18 @@ public class Invoice {
     public static class InvoiceItem{
         public InvoiceItem (PackageEntity packageEntity){
             this.name = packageEntity.getName();
-            this.price = packageEntity.getPrice();
+            this.qty = packageEntity.getQty();
+            this.unitPrice = packageEntity.getPrice();
             this.itbis = packageEntity.getItbis();
+            this.totalPrice = qty * unitPrice;
+            this.totalItbis = qty * itbis;
+            this.total = totalItbis + totalPrice;
         }
         String name;
-        double price;
+        int qty;
+        double unitPrice;
         double itbis;
+        double totalPrice,totalItbis;
+        double total;
     }
 }

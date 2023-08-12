@@ -2,16 +2,13 @@ package com.sonderben.kagom.web.rest_controller;
 
 import com.sonderben.kagom.dto.Login;
 import com.sonderben.kagom.entity.CustomerEntity;
-import com.sonderben.kagom.entity.Role;
 import com.sonderben.kagom.service.CustomerService;
-import com.sonderben.kagom.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "customers")
@@ -34,6 +31,7 @@ public class CustomerController  {
 
 
     @GetMapping("/{id}")
+    //@PostAuthorize("hasAnyAuthority('CUSTOMER','EMPLOYEE')")
     public ResponseEntity<CustomerEntity>findById(@PathVariable Long id){
 
         CustomerEntity e = service.findById(id);
@@ -65,7 +63,7 @@ public class CustomerController  {
         }
     }
 
-    @PostMapping("")
+    @PostMapping("/signup")
     public ResponseEntity<CustomerEntity> save(@RequestBody CustomerEntity customer){
        CustomerEntity ce= service.save(customer);
        if (ce != null)
@@ -84,10 +82,11 @@ public class CustomerController  {
     }
 
     @GetMapping("/login")
+    //@PostAuthorize("permitAll()")
     public ResponseEntity<String> login(@RequestBody Login login){
        String jwt = service.login(login);
        if (jwt != null)
-           return new ResponseEntity<>(jwt+" m mal jere jwt a",HttpStatus.OK);
+           return new ResponseEntity<>(jwt,HttpStatus.OK);
        return new ResponseEntity<>("m pa jween ni",HttpStatus.NOT_FOUND);
 
     }

@@ -12,71 +12,39 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CustomerEntity extends BaseEntity {
-    private String firsName;
-    private String lastName;
-    private String password;
-
-
-    @Column(columnDefinition = "varchar(30) default 'KMG'")
-    private String KMIdentity="KMG";
-
-    private String email;
-    private String telephone;
-    private Date birthday;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role>roles= Collections.singletonList(new Role("CUSTOMER"));
-
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private DistributionCenterEntity distributionCenter;
+//@Builder
+public class CustomerEntity extends KMUser {
 
     @OneToOne
     private DistributionCenterEntity internationalAddresses;
+    private boolean isTemp = false;
 
-    @Transient
-    private String distributionCenter_;
+   public CustomerEntity(Long id, String fullName, String email, String telephone, Date birthday, String KMIdentity){
 
-    @Transient
-    private String InternationalAddresses_;
+       super(id,fullName,email,telephone,birthday,KMIdentity);
 
-   @OneToOne(cascade = CascadeType.ALL)
-   @JoinColumn(name = "id", referencedColumnName = "id")
-    private AddressEntity address;
-
-   @Transient
-   private String address_;
-
-   public CustomerEntity(Long id, String firsName, String lastName, String email, String telephone, Date birthday, String KMIdentity){
-       this.id = id;
-       this.firsName = firsName;
-       this.lastName = lastName;
-       this.email = email;
-       this.telephone = telephone;
-       this.birthday = birthday;
-       this.KMIdentity = KMIdentity;
    }
 
 
-   public static CustomerEntity getExemple(DistributionCenterEntity distribution, AddressEntity address){
+   public static CustomerEntity getExemple(
+           DistributionCenterEntity distribution
+           , AddressEntity address){
        Random random = new Random();
-       return CustomerEntity.
-               builder()
-               .address(address)
-               .password("1234")
-               .firsName("first name: "+random.nextInt(10))
-               .lastName("last name: "+random.nextInt(10))
-               .email("user"/*+random.nextInt(10)*/)
-               .telephone("3245788 "+random.nextInt(9))
-               .roles( Collections.singletonList(new Role("CUSTOMER")) )
-               .birthday(new Date(  ))
-               .KMIdentity("KMI: "+random.nextInt(10))
-               .distributionCenter(distribution)
-               .internationalAddresses(distribution)
-               //.address_(address.toString())
-               .build();
+
+       CustomerEntity ce = new CustomerEntity();
+       ce.setPassword("1234");
+       ce.setAddress(address);
+       ce.setRoles(Collections.singletonList(new Role(1L)));
+       ce.setEmail("customer");
+       ce.setFullName("Ben Pha");
+       ce.setCountryIdentity("pp-324843");
+       ce.setInternationalAddresses( distribution );
+       ce.setDistributionCenter( distribution );
+       ce.setBirthday(new Date());
+       ce.setKMIdentity("KMI-0A0-0S1");
+       ce.setTelephone("484 940 84 74");
+
+       return  ce;
    }
 
 

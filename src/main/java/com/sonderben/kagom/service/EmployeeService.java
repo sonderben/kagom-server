@@ -7,6 +7,7 @@ import com.sonderben.kagom.entity.Role;
 import com.sonderben.kagom.repository.EmployeeRepository;
 import com.sonderben.kagom.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 public class EmployeeService  {
     @Autowired
     EmployeeRepository repository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
 
@@ -44,6 +47,8 @@ public class EmployeeService  {
     }
 
     public EmployeeEntity save(EmployeeEntity em){
+        em.setPassword( passwordEncoder.encode(em.getPassword()) );
+
         return repository.save(em);
     }
 
@@ -55,7 +60,7 @@ public class EmployeeService  {
         EmployeeEntity ee = repository.findByEmail(login.getEmail()).orElse(null);
         if (ee==null) return null;
         //assert ce != null;
-        if (login.getPassword().equals(ee.getPassword()))
+        if (passwordEncoder.matches(login.getPassword(), ee.getPassword()))
             return Util.createToken(login.getEmail(),ee.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
         return null;
     }

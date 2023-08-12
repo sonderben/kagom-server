@@ -3,6 +3,7 @@ package com.sonderben.kagom.web.rest_controller;
 import com.sonderben.kagom.dto.Invoice;
 import com.sonderben.kagom.dto.Shipment;
 import com.sonderben.kagom.entity.ShipmentEntity;
+import com.sonderben.kagom.service.SendEmailService;
 import com.sonderben.kagom.service.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ public class ShipmentController  {
 
     @Autowired
     ShipmentService service;
+
+    @Autowired
+    SendEmailService sendEmailService;
 
 
     @GetMapping("/")
@@ -42,19 +46,19 @@ public class ShipmentController  {
     }
 
 
-    @GetMapping("")
+    @GetMapping("/search")
     public ResponseEntity< List<Shipment> > findBYReceiverOrSender(
+            @RequestParam(name = "paid",required = false) boolean isPaid,
             @RequestParam(name = "receiver",required = false) Long receiver,
             @RequestParam(name = "sender",required = false) Long sender
     ){
 
-            List<Shipment> shipments = service.findBYReceiverOrSender( receiver ,sender );
+            List<Shipment> shipments = service.searchShipments(isPaid, receiver ,sender );
             if (shipments != null){
+                sendEmailService.sendEmail();
                 return new ResponseEntity<>( shipments,HttpStatus.OK);
             }
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-
 
     }
 

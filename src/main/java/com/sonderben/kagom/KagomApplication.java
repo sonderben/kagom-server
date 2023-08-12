@@ -1,16 +1,26 @@
 package com.sonderben.kagom;
 
 import com.sonderben.kagom.entity.*;
-import com.sonderben.kagom.repository.*;
+import com.sonderben.kagom.repository.PaymentRepository;
+import com.sonderben.kagom.repository.RoleRepository;
+import com.sonderben.kagom.repository.ShipmentRepository;
+import com.sonderben.kagom.service.CustomerService;
+import com.sonderben.kagom.service.DistributionCenterService;
+import com.sonderben.kagom.service.EmployeeService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @SpringBootApplication
-
+//@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 //@ComponentScan("com.sonderben.kagom")
 public class KagomApplication  {
 
@@ -19,9 +29,13 @@ public class KagomApplication  {
     }
 
     @Bean
-    CommandLineRunner start(CustomerRepository customerRepo,
-                            EmployeeRepository employeeRepo,
-                            PackageRepository packageRepo,
+    PasswordEncoder passwordEncoder(){
+        return  new BCryptPasswordEncoder();
+    }
+    @Bean
+    CommandLineRunner start(CustomerService customerRepo,
+                            EmployeeService employeeRepo,
+                            DistributionCenterService distributionCenterService,
                             ShipmentRepository shipmentRepo,
                             PaymentRepository paymentRepo,
                             RoleRepository roleRepository){
@@ -29,9 +43,11 @@ public class KagomApplication  {
 
 
 
-            Role[] roles = {new Role("CUSTOMER"),new Role("EMPLOYEE")};
 
-            roleRepository.saveAll( Arrays.asList(roles) );
+
+            roleRepository.save( new Role("CUSTOMER") );
+            roleRepository.save( new Role("EMPLOYEE") );
+            roleRepository.save( new Role("ADMIN") );
 
 
 
@@ -42,28 +58,35 @@ public class KagomApplication  {
             }
 
 
-            DistributionCenterEntity distributionCenter = DistributionCenterEntity
+            DistributionCenterEntity dc = DistributionCenterEntity
                     .getExemple(AddressEntity.getExemple());
 
+            distributionCenterService.save(dc);
 
 
 
-            CustomerEntity customer = CustomerEntity.getExemple(distributionCenter,AddressEntity.getExemple());
-            customer.setRoles(Collections.singletonList(new Role(2L)));
+            CustomerEntity customer = CustomerEntity.getExemple(dc,AddressEntity.getExemple());
+            customer.setRoles(Collections.singletonList(new Role(1L)));
             customerRepo.save( customer );
 
-            EmployeeEntity employee = EmployeeEntity.getExemple(distributionCenter,AddressEntity.getExemple());
+            EmployeeEntity employee = EmployeeEntity.getExemple("user",  dc);
             employee.setRoles(Collections.singletonList(new Role(2L)));
             employeeRepo.save(employee);
 
+            EmployeeEntity admin = EmployeeEntity.getExemple("admin",dc);
+            admin.setRoles(Collections.singletonList(new Role(3L)));
+            employeeRepo.save(admin);
+
             ShipmentEntity shipmentEntity = ShipmentEntity.builder()
-                    .distributionDestination(distributionCenter)
+                    .distributionDestination(dc)
                     .receiver(customer)
                     .sender(customer)
                     .status(ShipmentsStatus.INIT)
-                    .distributionOrigin(distributionCenter)
+                    .deliveryEmployee(employee)
+                    .receiverEmployee(employee)
+                    .distributionOrigin(dc)
                     .shippingDate(new Date())
-                    .distributionDestination(distributionCenter)
+                    .distributionDestination(dc)
                     .KMPackage( packageEntities )
                     .build();
 

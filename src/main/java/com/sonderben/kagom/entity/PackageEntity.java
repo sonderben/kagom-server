@@ -21,6 +21,7 @@ public class PackageEntity extends BaseEntity {
     private double price;
     private double itbis;
     private int flammabilityLevel;
+    private int qty;
     private String dimension;
     private String codeBar;
     private String images;
@@ -36,6 +37,7 @@ public class PackageEntity extends BaseEntity {
                 .itbis(12.5)
                 .name("name: "+random.nextInt(10))
                 .weight(random.nextDouble(23.4f))
+                .qty(random.nextInt(5))
                 .price(123.54)
                 .flammabilityLevel(random.nextInt(5))
                 .dimension("2*4*8")

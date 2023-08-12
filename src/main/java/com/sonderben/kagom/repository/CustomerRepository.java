@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
-    @Query("SELECT  new CustomerEntity ( c.id, c.firsName, c.lastName, c.email, c.telephone, c.birthday, c.KMIdentity) FROM CustomerEntity c where c.id = :id")
+    @Query("SELECT  new CustomerEntity ( c.id,  c.fullName, c.email, c.telephone, c.birthday, c.KMIdentity) FROM CustomerEntity c where c.id = :id")
     CustomerEntity findCustomer(@Param("id") Long id);
 
     Optional<CustomerEntity> findByEmail(String email);

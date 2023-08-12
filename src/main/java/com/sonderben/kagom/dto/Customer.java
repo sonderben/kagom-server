@@ -11,8 +11,7 @@ import java.util.UUID;
 public class Customer extends BaseEntity {
 
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String fullName;
     private String email;
     private String telephone;
     private Date birthday;
@@ -25,8 +24,7 @@ public class Customer extends BaseEntity {
     public Customer from(CustomerEntity customerEntity) {
         return Customer.builder()
                 .id(customerEntity.getId())
-                .firstName(customerEntity.getFirsName())
-                .lastName(customerEntity.getLastName())
+                .fullName(customerEntity.getFullName())
                 .email(customerEntity.getEmail())
                 .password(customerEntity.getPassword())
                 .birthday(customerEntity.getBirthday())
