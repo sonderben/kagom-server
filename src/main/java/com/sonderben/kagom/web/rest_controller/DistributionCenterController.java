@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "distribution")
+@RequestMapping(path = "distributions")
 public class DistributionCenterController  {
 
     @Autowired

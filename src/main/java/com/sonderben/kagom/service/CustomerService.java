@@ -71,7 +71,8 @@ public class CustomerService {
         //assert ce != null;
         //if (login.getPassword().equals(ce.getPassword()))
         if (passwordEncoder.matches(login.getPassword(), ce.getPassword()))
-            return Util.createToken(login.getEmail(),ce.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
+            return Util.createToken( login.getEmail(),
+                    ce.getRoles().stream().map(Role::getName).collect(Collectors.toList()),true);
         return null;
     }
 

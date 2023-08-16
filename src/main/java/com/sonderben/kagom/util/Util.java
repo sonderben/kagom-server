@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Util {
 
-    public static String createToken(String user, List<String> roles) {
+    public static String createToken(String user, List<String> roles,boolean isCustomer) {
         String KEY = "awed8kfSdDSa8!m";
         Algorithm algorithm=Algorithm.HMAC256(KEY.getBytes());
         String a= JWT.create()
@@ -16,6 +16,7 @@ public class Util {
                 .withIssuer("sonderben")
                 .withExpiresAt(new Date(System.currentTimeMillis()+30*60*100000))
                 .withClaim("roles",roles)
+                .withClaim("customer",isCustomer)
                 .sign(algorithm);
         System.err.println("json created: ");
 

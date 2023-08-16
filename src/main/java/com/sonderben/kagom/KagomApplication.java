@@ -13,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +29,17 @@ public class KagomApplication  {
     public static void main(String[] args) {
         SpringApplication.run(KagomApplication.class, args);
     }
-
+/*
+    @Bean
+    public WebMvcConfigurer Web(){
+        return new WebMvcConfigurer(){
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:8080");
+            }
+        };
+    }*/
     @Bean
     PasswordEncoder passwordEncoder(){
         return  new BCryptPasswordEncoder();
@@ -47,6 +59,7 @@ public class KagomApplication  {
 
             roleRepository.save( new Role("CUSTOMER") );
             roleRepository.save( new Role("EMPLOYEE") );
+            roleRepository.save( new Role("DIRECTOR") );
             roleRepository.save( new Role("ADMIN") );
 
 
@@ -69,21 +82,29 @@ public class KagomApplication  {
             customer.setRoles(Collections.singletonList(new Role(1L)));
             customerRepo.save( customer );
 
-            EmployeeEntity employee = EmployeeEntity.getExemple("user",  dc);
+            EmployeeEntity employee = EmployeeEntity.getExemple("user",JobTitle.CASHIER,  dc);
             employee.setRoles(Collections.singletonList(new Role(2L)));
             employeeRepo.save(employee);
 
-            EmployeeEntity admin = EmployeeEntity.getExemple("admin",dc);
-            admin.setRoles(Collections.singletonList(new Role(3L)));
+            EmployeeEntity director = EmployeeEntity.getExemple("director",JobTitle.DIRECTOR,  dc);
+            director.setRoles(Collections.singletonList(new Role(2L)));
+            employeeRepo.save(director);
+
+            EmployeeEntity admin = EmployeeEntity.getExemple("admin",JobTitle.ADMIN,dc);
+            admin.setRoles(Collections.singletonList(new Role(4L)));
             employeeRepo.save(admin);
 
             ShipmentEntity shipmentEntity = ShipmentEntity.builder()
                     .distributionDestination(dc)
                     .receiver(customer)
                     .sender(customer)
-                    .status(ShipmentsStatus.INIT)
+                    .shipmentsStatus(ShipmentsStatus.CENTER_DISTRIBUTION)
+                    .isLocal(true)
+                    .shipmentsStatusPercent(5.3f)
+                    .trackingId("KMTS-1234-A")//("KMTS-"+ (new Date().getTime()-1692118753009L)+"-A" )//c
                     .deliveryEmployee(employee)
                     .receiverEmployee(employee)
+                    .receivedDate(new Date())
                     .distributionOrigin(dc)
                     .shippingDate(new Date())
                     .distributionDestination(dc)

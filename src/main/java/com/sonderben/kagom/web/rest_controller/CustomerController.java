@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping(path = "customers")
 public class CustomerController  {
 
+    //@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader
 
     @Autowired
     CustomerService service;
@@ -87,7 +88,7 @@ public class CustomerController  {
        String jwt = service.login(login);
        if (jwt != null)
            return new ResponseEntity<>(jwt,HttpStatus.OK);
-       return new ResponseEntity<>("m pa jween ni",HttpStatus.NOT_FOUND);
+       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 

@@ -3,10 +3,7 @@ package com.sonderben.kagom.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -23,7 +20,12 @@ public class ShipmentEntity extends BaseEntity{
 
     private Date shippingDate;
     private Date  receivedDate;
-    private ShipmentsStatus status;
+
+    @Enumerated(value = EnumType.ORDINAL)
+    private ShipmentsStatus shipmentsStatus;
+    private float shipmentsStatusPercent;
+    private boolean isLocal = true;
+    private String trackingId;
 
     @OneToOne private DistributionCenterEntity distributionOrigin;
     @OneToOne @Nonnull private DistributionCenterEntity distributionDestination;

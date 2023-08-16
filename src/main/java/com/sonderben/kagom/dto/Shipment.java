@@ -21,7 +21,7 @@ public class Shipment {
 
     public Shipment(ShipmentEntity shipmentEntity){
         this.packages = shipmentEntity.getKMPackage();
-        this.status = shipmentEntity.getStatus();
+        this.status = shipmentEntity.getShipmentsStatus();
         this.distributionOriginName = shipmentEntity.getDistributionOrigin().getName();
         this.distributionOriginAddress = shipmentEntity.getDistributionOrigin().getAddress().toStringAddress();
         this.fullNameSender = shipmentEntity.getSender().getFullName();

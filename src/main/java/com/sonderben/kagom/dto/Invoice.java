@@ -21,7 +21,7 @@ public class Invoice {
 
 
     public Invoice(ShipmentEntity shipmentEntity){
-        this.status = shipmentEntity.getStatus();
+        this.status = shipmentEntity.getShipmentsStatus();
         this.distributionOriginName = shipmentEntity.getDistributionOrigin().getName();
         this.distributionOriginAddress = shipmentEntity.getDistributionOrigin().getAddress().toStringAddress();
         this.fullNameSender = shipmentEntity.getSender().getFullName();

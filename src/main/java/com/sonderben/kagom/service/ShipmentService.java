@@ -2,8 +2,10 @@ package com.sonderben.kagom.service;
 
 import com.sonderben.kagom.dto.Invoice;
 import com.sonderben.kagom.dto.Shipment;
+import com.sonderben.kagom.dto.ShipmentTracking;
 import com.sonderben.kagom.entity.CustomerEntity;
 import com.sonderben.kagom.entity.ShipmentEntity;
+import com.sonderben.kagom.entity.ShipmentsStatus;
 import com.sonderben.kagom.repository.ShipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,6 +113,15 @@ public class ShipmentService  {
         ShipmentEntity shipmentEntity = repository.findById(idShipment).orElse(null);
         if (shipmentEntity == null) return  null;
         return new Invoice(shipmentEntity);
+    }
+
+    public ShipmentTracking findByTrackingId(String trackingId){
+        ShipmentEntity shipmentEntity = repository.findByTrackingId(trackingId);
+        ShipmentTracking shipmentTracking = null;
+        if (shipmentEntity != null /*&& retirado hace 2 dias*/ ){
+            shipmentTracking = new ShipmentTracking(shipmentEntity);
+        }
+        return shipmentTracking;
     }
 
 

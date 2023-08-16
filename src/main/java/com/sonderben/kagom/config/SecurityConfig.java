@@ -53,7 +53,10 @@ public class SecurityConfig {
                                 antMatcher("/customers/login"),
                                 antMatcher("/customers/login/"),
                                 antMatcher("/customers/signup"),
-                                antMatcher("/customers/signup/")
+                                antMatcher("/customers/signup/"),
+                                antMatcher("/shipments/tracking/{id}"),
+                                antMatcher(HttpMethod.GET,"distributions")
+
                         ).permitAll()
                         .requestMatchers(
                                 antMatcher(HttpMethod.GET,"/customers/{id}"),

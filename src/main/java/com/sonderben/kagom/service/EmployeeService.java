@@ -61,7 +61,8 @@ public class EmployeeService  {
         if (ee==null) return null;
         //assert ce != null;
         if (passwordEncoder.matches(login.getPassword(), ee.getPassword()))
-            return Util.createToken(login.getEmail(),ee.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
+            return Util.createToken(login.getEmail(),
+                    ee.getRoles().stream().map(Role::getName).collect(Collectors.toList()),false);
         return null;
     }
 

@@ -16,7 +16,7 @@ public class SendEmailService {
         sm.setTo("***REMOVED***");
         sm.setSubject("subject tes 1 2");
         sm.setText("some text some text some text some text ");
-        javaMailSender.send(sm);
+        //javaMailSender.send(sm);
         System.out.println("email send");
     }
 }

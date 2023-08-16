@@ -16,6 +16,8 @@ public interface ShipmentRepository extends JpaRepository<ShipmentEntity,Long> {
 
     List<ShipmentEntity> findBySender(CustomerEntity sender);
 
+    ShipmentEntity findByTrackingId(String trackingId);
+
     @Query("select s from ShipmentEntity s where s.sender.id = :id and s.payment.balance = 0")
     List<ShipmentEntity>findShipmentPaidBySender( @Param("id") long id );
 
