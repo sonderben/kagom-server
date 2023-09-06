@@ -29,17 +29,17 @@ public class KagomApplication  {
     public static void main(String[] args) {
         SpringApplication.run(KagomApplication.class, args);
     }
-/*
+
     @Bean
     public WebMvcConfigurer Web(){
         return new WebMvcConfigurer(){
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8080");
+                        .allowedOrigins("http://localhost:3000");
             }
         };
-    }*/
+    }
     @Bean
     PasswordEncoder passwordEncoder(){
         return  new BCryptPasswordEncoder();
@@ -69,28 +69,54 @@ public class KagomApplication  {
             for (int i = 0; i < 5; i++) {
                 packageEntities.add(PackageEntity.getExemple());
             }
+            List<PackageEntity>packageEntities2 = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                packageEntities.add(PackageEntity.getExemple());
+            }
 
 
             DistributionCenterEntity dc = DistributionCenterEntity
-                    .getExemple(AddressEntity.getExemple());
+                    .getExemple("Abc",false,AddressEntity.getExemple("Haïti","Lascirie # 4"));
 
+            DistributionCenterEntity dc2 = DistributionCenterEntity
+                    .getExemple("Mene",false,AddressEntity.getExemple("Haïti","Rue Magloire # 14"));
+
+            DistributionCenterEntity dc3 = DistributionCenterEntity
+                    .getExemple("Cool",false,AddressEntity.getExemple( "Haïti","Rue 23  # 24" ));
+
+            AddressEntity address = AddressEntity
+                    .builder()
+                    .country("Usa")
+                    .state("Miami")
+                    .codePostal("25378363")
+                    .direction("123 Main Street, Miami, Florida")
+                    .build();
+            DistributionCenterEntity international = DistributionCenterEntity
+                    .getExemple("Great",true,address);
+
+
+
+            distributionCenterService.save(international);
             distributionCenterService.save(dc);
+            distributionCenterService.save(dc2);
+            distributionCenterService.save(dc3);
 
 
 
-            CustomerEntity customer = CustomerEntity.getExemple(dc,AddressEntity.getExemple());
+
+            CustomerEntity customer = CustomerEntity.getExemple(dc,AddressEntity.getExemple( "Haïti","Block-hausse # 4" ));
             customer.setRoles(Collections.singletonList(new Role(1L)));
             customerRepo.save( customer );
 
-            EmployeeEntity employee = EmployeeEntity.getExemple("user",JobTitle.CASHIER,  dc);
+            EmployeeEntity employee = EmployeeEntity.getExemple("user@gmail.com",JobTitle.CASHIER);
             employee.setRoles(Collections.singletonList(new Role(2L)));
             employeeRepo.save(employee);
 
-            EmployeeEntity director = EmployeeEntity.getExemple("director",JobTitle.DIRECTOR,  dc);
+            EmployeeEntity director = EmployeeEntity.getExemple("director@gmail.com",JobTitle.DIRECTOR);
             director.setRoles(Collections.singletonList(new Role(2L)));
             employeeRepo.save(director);
 
-            EmployeeEntity admin = EmployeeEntity.getExemple("admin",JobTitle.ADMIN,dc);
+            EmployeeEntity admin = EmployeeEntity.getExemple("admin@gmail.com",JobTitle.ADMIN);
             admin.setRoles(Collections.singletonList(new Role(4L)));
             employeeRepo.save(admin);
 
@@ -98,9 +124,10 @@ public class KagomApplication  {
                     .distributionDestination(dc)
                     .receiver(customer)
                     .sender(customer)
-                    .shipmentsStatus(ShipmentsStatus.CENTER_DISTRIBUTION)
-                    .isLocal(true)
-                    .shipmentsStatusPercent(5.3f)
+                    .shipmentsStatus(ShipmentsStatus.RETIRED)
+                    .isLocal(false)
+                    .info("Un ordinateur portable macOS doté d'un écran de 13,30 pouces avec une résolution de 2560 x 1600 pixels. Il est alimenté par un processeur Core i5 et est livré avec 12 Go de RAM. L'Apple MacBook Pro contient 512 Go de stockage SSD.")
+                    .shipmentsStatusPercent(0f)
                     .trackingId("KMTS-1234-A")//("KMTS-"+ (new Date().getTime()-1692118753009L)+"-A" )//c
                     .deliveryEmployee(employee)
                     .receiverEmployee(employee)
@@ -111,12 +138,34 @@ public class KagomApplication  {
                     .KMPackage( packageEntities )
                     .build();
 
+            ShipmentEntity shipmentEntity2 = ShipmentEntity.builder()
+                    .distributionDestination(dc)
+                    .receiver(customer)
+                    .sender(customer)
+                    .shipmentsStatus(ShipmentsStatus.SENT)
+                    .isLocal(false)
+                    .info("Un ordinateur portable macOS doté d'un écran de 13,30 pouces avec une résolution de 2560 x 1600 pixels. Il est alimenté par un processeur Core i5 et est livré avec 12 Go de RAM. L'Apple MacBook Pro contient 512 Go de stockage SSD.")
+                    .shipmentsStatusPercent(0f)
+                    .trackingId("KMTS-1234-B")//("KMTS-"+ (new Date().getTime()-1692118753009L)+"-A" )//c
+                    .deliveryEmployee(employee)
+                    .receiverEmployee(employee)
+                    .receivedDate(new Date())
+                    .distributionOrigin(dc)
+                    .shippingDate(new Date())
+                    .distributionDestination(dc)
+                    .KMPackage( packageEntities2 )
+                    .build();
+
             shipmentRepo.save(shipmentEntity);
+            shipmentRepo.save(shipmentEntity2);
 
 
 
             PaymentEntity payments = PaymentEntity.getExemple(shipmentEntity);
             paymentRepo.save(payments);
+
+            PaymentEntity payments2 = PaymentEntity.getExemple(shipmentEntity2);
+            paymentRepo.save(payments2);
         };
     }
 }

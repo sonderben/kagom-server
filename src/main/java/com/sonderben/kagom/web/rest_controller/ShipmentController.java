@@ -3,6 +3,7 @@ package com.sonderben.kagom.web.rest_controller;
 import com.sonderben.kagom.dto.Invoice;
 import com.sonderben.kagom.dto.Shipment;
 import com.sonderben.kagom.dto.ShipmentTracking;
+import com.sonderben.kagom.entity.PackageEntity;
 import com.sonderben.kagom.entity.ShipmentEntity;
 import com.sonderben.kagom.service.SendEmailService;
 import com.sonderben.kagom.service.ShipmentService;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
 @RequestMapping(path = "shipments")
 public class ShipmentController  {
@@ -57,7 +58,8 @@ public class ShipmentController  {
 
             List<Shipment> shipments = service.searchShipments(isPaid, receiver ,sender );
             if (shipments != null){
-                sendEmailService.sendEmail();
+                //sendEmailService.sendEmail();
+
                 return new ResponseEntity<>( shipments,HttpStatus.OK);
             }
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -86,6 +88,8 @@ public class ShipmentController  {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+
 
 
 }

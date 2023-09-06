@@ -1,0 +1,71 @@
+type Query{
+    customers:[Customer],
+    customerById(id:Int):Customer,
+    distributions:[Distribution],
+    distributionById(id:Int):Distribution
+
+}
+
+type Mutation{
+    customerLogin(login:Login):LoginResponse
+}
+
+
+type Employee {
+    id:Int
+}
+input Login{
+    email:String
+    password:String
+}
+
+type LoginResponse{
+    jwt:String
+    customer:Customer
+}
+
+
+
+
+type Customer {
+    id:Int
+    email:String
+    telephone:String
+    birthday:String
+    fullName:String
+    points:Int
+    isTemp:Int
+    countryIdentity:String
+    dateCreated:String
+    KMIdentity:String
+    distributionCenter:Distribution
+    internationalAddresses:Distribution
+    address:Address
+}
+
+type Distribution{
+    id:Int
+    address:Address
+    schedule:Schedule
+    name:String
+    email:String
+    tel:String
+    isInternational:Boolean
+}
+type Address{
+    id:Int
+    country:String
+    state:String
+    city:String
+    codePostal:String
+    direction:String
+}
+
+type Schedule{
+    id:Int
+    dayOfWeek:Int
+    startHour:Float
+    endHour:Float
+}
+
+

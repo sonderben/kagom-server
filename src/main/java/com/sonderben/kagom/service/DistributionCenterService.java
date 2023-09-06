@@ -15,15 +15,25 @@ public class DistributionCenterService  {
 
 
     public List<DistributionCenterEntity> findAll() {
-        return repository.findAll();
+        List<DistributionCenterEntity> ces = repository.findAll();
+        for (DistributionCenterEntity ce:ces){
+            ce.getScheduleString();
+            ce.setSchedules(null);
+        }
+
+        return ces;
     }
 
 
     public DistributionCenterEntity findById(Long id) {
-        return repository.findById(id).orElse(null);
+        DistributionCenterEntity ce = repository.findById(id).orElse(null);
+        if (ce !=null)
+            ce.getScheduleString();
+        return ce;
     }
 
     public DistributionCenterEntity save(DistributionCenterEntity dce){
+
         return repository.save(dce);
 
     }

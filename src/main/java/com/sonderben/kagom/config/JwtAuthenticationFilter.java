@@ -47,11 +47,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 KMUser user;
                 if ( decodedJWT.getClaim("customer").asBoolean() ){
                     user = customerService.findByEmail(email);
+
                 }else {
-                    user = employeeService.findByEmail(email);
+                    user = employeeService.findByKMIdentity(email);
                 }
 
                 if (user != null){
+                    System.out.println("customer: "+user);
                     Collection<GrantedAuthority> grantedAuthorities =
                             user.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
                     authentication = new UsernamePasswordAuthenticationToken(email, null, grantedAuthorities);

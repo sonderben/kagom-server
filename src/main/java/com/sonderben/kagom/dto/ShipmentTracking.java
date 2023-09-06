@@ -2,11 +2,15 @@ package com.sonderben.kagom.dto;
 
 import com.sonderben.kagom.entity.ShipmentEntity;
 import com.sonderben.kagom.entity.ShipmentsStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShipmentTracking {
 
 
@@ -41,21 +45,22 @@ public class ShipmentTracking {
 
     private float getPercent(ShipmentsStatus ss,int size,float stepPercent){
         float percent;
+        stepPercent = stepPercent>=1? ( (float) stepPercent/100 ) : stepPercent;
         final int SHIPMENT_LOCAL = 4;
         if (size == SHIPMENT_LOCAL){
              switch (ss) {
-                 case SENT -> percent = 33.33f;
-                case CENTER_DISTRIBUTION ->percent = 66.66f;
-                case RETIRED ->percent = 100;
-                default ->percent = 0;
+                 case SENT -> percent = (float) 2 /4;
+                case CENTER_DISTRIBUTION ->percent = (float) 3 /4;
+                case RETIRED ->percent = 1;
+                default ->percent = (float) 1 /4;
             };
         }else {
              switch (ss) {
-                 case SENT -> percent = 25f;
-                case CENTER_DISTRIBUTION ->percent = 50f;
-                case CUSTOMS -> percent =75f;
-                case RETIRED -> percent =100;
-                default -> percent =0;
+                 case SENT -> percent = (float) 2 /5;
+                case CENTER_DISTRIBUTION ->percent = (float) 4 /5;
+                case CUSTOMS -> percent = (float) 3 /5;
+                case RETIRED -> percent =1;
+                default -> percent = (float) 1 /5;
             };
         }
         final float f = percent + stepPercent;

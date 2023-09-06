@@ -3,7 +3,6 @@ package com.sonderben.kagom.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -18,13 +17,15 @@ public class KMUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false)
     protected Long id;
+    @Column(unique = true,nullable = false)
     protected String email;
     protected String telephone;
     protected Date birthday;
     protected String fullName;
     protected String countryIdentity;
-    //protected String lastName;
-    protected Date dateCreated = new Date();
+    @Column(updatable = false)
+    protected Date dateCreated;
+    @Column(nullable = false)
     protected String password;
     @Transient
     protected String distributionCenter_;
@@ -35,16 +36,16 @@ public class KMUser {
     @Transient
     protected String address_;
 
-    @Column(columnDefinition = "varchar(30) default 'KMG'")
-    protected String KMIdentity="KMG";
+    @Column(updatable = false,nullable = false)
+    protected String kmIdentity;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles= new ArrayList<>();
+    @Column(nullable = false)
+    private Collection<Role> roles= null;
 
 
-    @OneToOne
-    //@JoinColumn(name = "id", referencedColumnName = "id")
+    @ManyToOne
     private DistributionCenterEntity distributionCenter;
 
 
@@ -60,6 +61,6 @@ public class KMUser {
         this.email = email;
         this.telephone = telephone;
         this.birthday = birthday;
-        this.KMIdentity = KMIdentity;
+        this.kmIdentity = KMIdentity;
     }
 }

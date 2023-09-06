@@ -1,6 +1,7 @@
 package com.sonderben.kagom.repository;
 
 import com.sonderben.kagom.entity.CustomerEntity;
+import com.sonderben.kagom.entity.PackageEntity;
 import com.sonderben.kagom.entity.ShipmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -31,4 +32,6 @@ public interface ShipmentRepository extends JpaRepository<ShipmentEntity,Long> {
 
     @Query("select s from ShipmentEntity s where s.receiver.id = :id and s.payment.balance > 0")
     List<ShipmentEntity>findShipmentDueByReceiver( @Param("id") long id );
+
+
 }

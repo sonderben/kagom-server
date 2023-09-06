@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.Range;
 
 import java.util.*;
 
@@ -28,12 +27,12 @@ public class EmployeeEntity extends KMUser{
         this.jobTitle =  jobTitle;
     }
 
-    public static EmployeeEntity getExemple(String email,JobTitle jobTitle,DistributionCenterEntity distribution){
+    public static EmployeeEntity getExemple(String email,JobTitle jobTitle){
 
         EmployeeEntity ee = new EmployeeEntity();
         Random random = new Random();
-        ee.setPassword("1234");
-        ee.setAddress(AddressEntity.getExemple());
+        ee.setPassword("!Kagom1234");
+        ee.setAddress(AddressEntity.getExemple("Haïti","Lascirie # 4"));
         List<Schedule> schedule = Collections.singletonList(Schedule.builder()
                 .dayOfWeek(1)
                 .startHour(8.30f)
@@ -46,7 +45,8 @@ public class EmployeeEntity extends KMUser{
         ee.setJobTitle(jobTitle);
         //ee.setDistributionCenter(distribution);
         ee.setBirthday(new Date());
-        ee.setKMIdentity("KMI-0A0-"+random.nextInt(99));
+        ee.setDateCreated(new Date());
+        ee.setKmIdentity("KMI-0A0-"+random.nextInt(99));
         ee.setTelephone("484 940 84 74");
 
         return ee;

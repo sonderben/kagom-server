@@ -2,15 +2,13 @@ package com.sonderben.kagom.web.rest_controller;
 
 import com.sonderben.kagom.entity.AddressEntity;
 import com.sonderben.kagom.entity.PackageEntity;
+import com.sonderben.kagom.entity.ShipmentEntity;
 import com.sonderben.kagom.service.AddressService;
 import com.sonderben.kagom.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,6 +41,12 @@ public class PackageController  {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<PackageEntity>> findPackagesByShipment(@RequestParam(name = "shipment_id") Long shipmentId){
+        List<PackageEntity> packageEntity = service.findPackagesByShipment(shipmentId);
+        return new ResponseEntity<>(packageEntity,HttpStatus.OK);
     }
 
 

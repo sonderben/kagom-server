@@ -1,5 +1,6 @@
 package com.sonderben.kagom.web.rest_controller;
 
+import com.sonderben.kagom.dto.CustomerLoginResponse;
 import com.sonderben.kagom.dto.Login;
 import com.sonderben.kagom.entity.CustomerEntity;
 import com.sonderben.kagom.service.CustomerService;
@@ -73,6 +74,15 @@ public class CustomerController  {
            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody CustomerEntity cus, @PathVariable Long id){
+        CustomerEntity customer = service.update(cus,id);
+        if (customer != null)
+            return new ResponseEntity<>(customer,HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<CustomerEntity>delete(@PathVariable Long id){
        CustomerEntity ce = service.delete(id);
@@ -82,12 +92,13 @@ public class CustomerController  {
        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @GetMapping("/login")
-    //@PostAuthorize("permitAll()")
-    public ResponseEntity<String> login(@RequestBody Login login){
-       String jwt = service.login(login);
-       if (jwt != null)
-           return new ResponseEntity<>(jwt,HttpStatus.OK);
+    @PostMapping("/login")
+    public ResponseEntity<CustomerLoginResponse> login(@RequestBody Login login){
+        System.out.println("jwt: "+login);
+       CustomerLoginResponse clr = service.login(login);
+
+       if (clr != null)
+           return new ResponseEntity<>(clr,HttpStatus.OK);
        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }

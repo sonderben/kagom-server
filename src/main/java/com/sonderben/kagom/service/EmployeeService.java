@@ -1,7 +1,6 @@
 package com.sonderben.kagom.service;
 
 import com.sonderben.kagom.dto.Login;
-import com.sonderben.kagom.entity.CustomerEntity;
 import com.sonderben.kagom.entity.EmployeeEntity;
 import com.sonderben.kagom.entity.Role;
 import com.sonderben.kagom.repository.EmployeeRepository;
@@ -11,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,13 +47,16 @@ public class EmployeeService  {
     }
 
     public EmployeeEntity save(EmployeeEntity em){
+        Random random = new Random();
         em.setPassword( passwordEncoder.encode(em.getPassword()) );
+
+        em.setKmIdentity("KMI-"+random.nextInt(9999));
 
         return repository.save(em);
     }
 
-    public EmployeeEntity findByEmail(String email){
-        return repository.findByEmail(email).orElse(null);
+    public EmployeeEntity findByKMIdentity(String kmIdentity){
+        return repository.findBykmIdentity(kmIdentity).orElse(null);
     }
 
     public String login(Login login){

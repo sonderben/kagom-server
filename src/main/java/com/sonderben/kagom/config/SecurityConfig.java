@@ -62,7 +62,8 @@ public class SecurityConfig {
                                 antMatcher(HttpMethod.GET,"/customers/{id}"),
                                 antMatcher(HttpMethod.GET,"/customers/light/{id}"),
                                 antMatcher(HttpMethod.GET,"/customers/full/{id}"),
-                                antMatcher(HttpMethod.GET,"/shipments/{id}")
+                                antMatcher(HttpMethod.GET,"/shipments/{id}"),
+                                antMatcher(HttpMethod.PATCH,"/customers/{id}")
                         ).hasAnyAuthority("CUSTOMER","ADMIN","EMPLOYEE")
                         .requestMatchers(
                                 antMatcher(HttpMethod.PUT,"/customers/{id}")

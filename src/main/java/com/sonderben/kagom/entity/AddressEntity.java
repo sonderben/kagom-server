@@ -20,7 +20,7 @@ public class AddressEntity extends BaseEntity{
     private String codePostal;
     private String direction;
 
-    private String note;
+
 
 
     /*@OneToOne(mappedBy = "address")
@@ -33,7 +33,7 @@ public class AddressEntity extends BaseEntity{
         return country+" "+state+" "+city+" "+direction;
     }
 
-    public static AddressEntity getExemple() {
+    public static AddressEntity getExemple(String country,String direction) {
 
         Random random = new Random();
 
@@ -41,12 +41,12 @@ public class AddressEntity extends BaseEntity{
 
         return AddressEntity
                 .builder()
-                .city("Saint-marc: "+random.nextInt(100) )
-                .country("Haiti: "+random.nextInt(100))
+                .city("Saint-marc " )
+                .country( country )
                 .codePostal("ht-"+random.nextInt(400))
-                .direction("Lascirie # "+random.nextInt(40))
+                .direction( direction )
                 .state(state[random.nextInt(state.length-1)])
-                .note("some notes: "+random.nextInt())
+
                 .build();
     }
 }

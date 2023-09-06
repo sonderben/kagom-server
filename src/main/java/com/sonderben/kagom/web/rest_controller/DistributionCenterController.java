@@ -22,6 +22,7 @@ public class DistributionCenterController  {
     @GetMapping("")
     public ResponseEntity<List<DistributionCenterEntity>> findAll() {
         List<DistributionCenterEntity> e = service.findAll();
+
         if (e != null) {
             return new ResponseEntity<>(e, HttpStatus.OK);
         } else {

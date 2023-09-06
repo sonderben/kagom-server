@@ -20,6 +20,7 @@ public class ShipmentEntity extends BaseEntity{
 
     private Date shippingDate;
     private Date  receivedDate;
+    private String info;
 
     @Enumerated(value = EnumType.ORDINAL)
     private ShipmentsStatus shipmentsStatus;
@@ -27,12 +28,23 @@ public class ShipmentEntity extends BaseEntity{
     private boolean isLocal = true;
     private String trackingId;
 
-    @OneToOne private DistributionCenterEntity distributionOrigin;
-    @OneToOne @Nonnull private DistributionCenterEntity distributionDestination;
-    @OneToOne @Nonnull private CustomerEntity receiver;
-    @OneToOne @Nonnull private CustomerEntity sender;
+    @ManyToOne private DistributionCenterEntity distributionOrigin;
+    @ManyToOne @Nonnull private DistributionCenterEntity distributionDestination;
+
+    @ManyToOne @Nonnull private CustomerEntity receiver;
+    @ManyToOne @Nonnull private CustomerEntity sender;
+
+
+
     @OneToMany(cascade = CascadeType.ALL) @Nonnull private List<PackageEntity> KMPackage;
-    @OneToOne private EmployeeEntity receiverEmployee,deliveryEmployee;
+
+
+
+
+
+
+
+    @ManyToOne private EmployeeEntity receiverEmployee,deliveryEmployee;
 
     @OneToOne(mappedBy = "shipment") PaymentEntity payment;
 

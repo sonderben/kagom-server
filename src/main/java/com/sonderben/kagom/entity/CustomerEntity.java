@@ -2,7 +2,6 @@ package com.sonderben.kagom.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,9 +14,10 @@ import java.util.*;
 //@Builder
 public class CustomerEntity extends KMUser {
 
-    @OneToOne
+    @ManyToOne
     private DistributionCenterEntity internationalAddresses;
-    private boolean isTemp = false;
+    private Boolean isTemp = false;
+    private Long points;
 
    public CustomerEntity(Long id, String fullName, String email, String telephone, Date birthday, String KMIdentity){
 
@@ -32,16 +32,18 @@ public class CustomerEntity extends KMUser {
        Random random = new Random();
 
        CustomerEntity ce = new CustomerEntity();
-       ce.setPassword("1234");
+       ce.setPassword("!Kagom1234");
        ce.setAddress(address);
        ce.setRoles(Collections.singletonList(new Role(1L)));
-       ce.setEmail("customer");
+       ce.setEmail("customer@gmail.com");
        ce.setFullName("Ben Pha");
+       ce.setPoints(145_643L);
        ce.setCountryIdentity("pp-324843");
        ce.setInternationalAddresses( distribution );
        ce.setDistributionCenter( distribution );
        ce.setBirthday(new Date());
-       ce.setKMIdentity("KMI-0A0-0S1");
+       ce.setDateCreated(new Date());
+       ce.setKmIdentity("KMI-0A0-0S1");
        ce.setTelephone("484 940 84 74");
 
        return  ce;
