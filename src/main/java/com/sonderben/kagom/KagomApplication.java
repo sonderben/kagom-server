@@ -137,7 +137,7 @@ public class KagomApplication  {
                     .distributionDestination(dc)
                     .KMPackage( packageEntities )
                     .build();
-
+//
             ShipmentEntity shipmentEntity2 = ShipmentEntity.builder()
                     .distributionDestination(dc)
                     .receiver(customer)
