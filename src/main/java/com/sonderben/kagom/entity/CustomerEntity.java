@@ -19,9 +19,9 @@ public class CustomerEntity extends KMUser {
     private Boolean isTemp = false;
     private Long points;
 
-   public CustomerEntity(Long id, String fullName, String email, String telephone, Date birthday, String KMIdentity){
+   public CustomerEntity(Long id,String countryIdentity, String fullName, String email, String telephone, Date birthday, String KMIdentity){
 
-       super(id,fullName,email,telephone,birthday,KMIdentity);
+       super(id,countryIdentity,fullName,email,telephone,birthday,KMIdentity);
 
    }
 

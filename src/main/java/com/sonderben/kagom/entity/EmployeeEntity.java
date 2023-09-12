@@ -22,8 +22,8 @@ public class EmployeeEntity extends KMUser{
     private List<Schedule> schedules;
 
 
-    public EmployeeEntity(Long id, String fullName,  String email, String telephone, Date birthday,JobTitle jobTitle, String KMIdentity){
-        super(id,fullName,email,telephone,birthday,KMIdentity);
+    public EmployeeEntity(Long id,String countryIdentity, String fullName,  String email, String telephone, Date birthday,JobTitle jobTitle, String KMIdentity){
+        super(id,countryIdentity,fullName,email,telephone,birthday,KMIdentity);
         this.jobTitle =  jobTitle;
     }
 

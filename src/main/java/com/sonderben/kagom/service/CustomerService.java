@@ -56,8 +56,10 @@ public class CustomerService {
         DistributionCenterEntity ds = DistributionCenterEntity.builder().build();
         ds.setInternational(true);
         ds.setId(1L);
+        entity.setRoles(Collections.singletonList(new Role(1L)));
         entity.setInternationalAddresses(ds);
         entity.setPoints(0L);
+        entity.setDateCreated(new Date());
         entity.setKmIdentity("KMI-"+random.nextInt(9)+"A"+random.nextInt(9)+"0S"+random.nextInt(9));
 
 

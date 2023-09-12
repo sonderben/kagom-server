@@ -66,12 +66,12 @@ public class KagomApplication  {
 
 
             List<PackageEntity>packageEntities = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 1; i++) {
                 packageEntities.add(PackageEntity.getExemple());
             }
             List<PackageEntity>packageEntities2 = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                packageEntities.add(PackageEntity.getExemple());
+            for (int i = 0; i < 1; i++) {
+                packageEntities2.add(PackageEntity.getExemple());
             }
 
 

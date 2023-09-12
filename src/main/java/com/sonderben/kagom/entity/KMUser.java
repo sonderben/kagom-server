@@ -55,11 +55,12 @@ public class KMUser {
     //@JoinColumn(name = "id", referencedColumnName = "id")
     private AddressEntity address;
 
-    public KMUser(Long id, String fullName, String email, String telephone, Date birthday, String KMIdentity){
+    public KMUser(Long id,String countryIdentity, String fullName, String email, String telephone, Date birthday, String KMIdentity){
         this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.telephone = telephone;
+        this.countryIdentity = countryIdentity;
         this.birthday = birthday;
         this.kmIdentity = KMIdentity;
     }

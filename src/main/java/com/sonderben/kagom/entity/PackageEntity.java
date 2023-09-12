@@ -31,11 +31,11 @@ public class PackageEntity extends BaseEntity {
         Random random = new Random();
         return PackageEntity.builder()
                 .KMIdentity("943243434"+random.nextInt(10))
-                .description("some descriptions: "+random.nextInt(10))
+                .description("Alia euismod molestiae fastidii cras nisl impetus dissentiunt fringilla ius. Auctor moderatius tristique sollicitudin dolor vocibus ultricies ex melius. Erroribus vel urbanitas omnesque dico laoreet eloquentiam etiam corrumpit."+random.nextInt(10))
                 .images("www.aws-s3/chien/"+random.nextInt(20))
                 .content("cage for dog")
                 .itbis(12.5)
-                .name("name: "+random.nextInt(10))
+                .name("Desktop: "+random.nextInt(10))
                 .weight(random.nextDouble(23.4f))
                 .qty(random.nextInt(5))
                 .price(123.54)

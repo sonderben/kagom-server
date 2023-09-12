@@ -1,5 +1,6 @@
 package com.sonderben.kagom.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sonderben.kagom.dto.DistributionCenter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,9 @@ public class DistributionCenterEntity extends BaseEntity{
     private AddressEntity address;
     private String email;
     private String tel;
-    private boolean isInternational;
+
+    @JsonProperty("isInternational")
+    private boolean isInternational;//isInternational
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Schedule> schedules;
 
