@@ -10,10 +10,11 @@ public class SendEmailService {
     @Autowired
     JavaMailSender javaMailSender;
 
+    // not implement yet, only 4 try if it work
     public void sendEmail(){
         SimpleMailMessage sm = new SimpleMailMessage();
-        sm.setFrom("***REMOVED***");
-        sm.setTo("***REMOVED***");
+        sm.setFrom("xxxxx@gmail.com");
+        sm.setTo("xxxxx@gmail.com");
         sm.setSubject("subject tes 1 2");
         sm.setText("some text some text some text some text ");
         //javaMailSender.send(sm);

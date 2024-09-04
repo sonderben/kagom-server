@@ -44,6 +44,8 @@ public class KagomApplication  {
     PasswordEncoder passwordEncoder(){
         return  new BCryptPasswordEncoder();
     }
+
+    //for testing
     @Bean
     CommandLineRunner start(CustomerService customerRepo,
                             EmployeeService employeeRepo,
@@ -52,11 +54,6 @@ public class KagomApplication  {
                             PaymentRepository paymentRepo,
                             RoleRepository roleRepository){
         return args -> {
-
-
-
-
-
             roleRepository.save( new Role("CUSTOMER") );
             roleRepository.save( new Role("EMPLOYEE") );
             roleRepository.save( new Role("DIRECTOR") );

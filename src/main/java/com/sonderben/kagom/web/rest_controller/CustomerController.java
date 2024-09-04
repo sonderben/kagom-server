@@ -75,7 +75,7 @@ public class CustomerController  {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody CustomerEntity cus, @PathVariable Long id){
+    public ResponseEntity<CustomerEntity> update(@RequestBody CustomerEntity cus, @PathVariable Long id){
         CustomerEntity customer = service.update(cus,id);
         if (customer != null)
             return new ResponseEntity<>(customer,HttpStatus.OK);

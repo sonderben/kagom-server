@@ -3,7 +3,6 @@ package com.sonderben.kagom.web.rest_controller;
 import com.sonderben.kagom.dto.Invoice;
 import com.sonderben.kagom.dto.Shipment;
 import com.sonderben.kagom.dto.ShipmentTracking;
-import com.sonderben.kagom.entity.PackageEntity;
 import com.sonderben.kagom.entity.ShipmentEntity;
 import com.sonderben.kagom.service.SendEmailService;
 import com.sonderben.kagom.service.ShipmentService;
@@ -58,7 +57,7 @@ public class ShipmentController  {
 
             List<Shipment> shipments = service.searchShipments(isPaid, receiver ,sender );
             if (shipments != null){
-                //sendEmailService.sendEmail();
+
 
                 return new ResponseEntity<>( shipments,HttpStatus.OK);
             }

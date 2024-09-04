@@ -1,5 +1,6 @@
 package com.sonderben.kagom.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 //@Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomerEntity extends KMUser {
 
     @ManyToOne

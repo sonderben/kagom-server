@@ -47,7 +47,8 @@ public class CustomerService {
     }
 
     public CustomerEntity findById(Long id){
-        return repository.findCustomer(id);
+        return repository.findById(id).orElse(null);
+        //return repository.findCustomer(id);
     }
 
     public CustomerEntity save(CustomerEntity entity){
@@ -58,7 +59,7 @@ public class CustomerService {
         ds.setId(1L);
         entity.setRoles(Collections.singletonList(new Role(1L)));
         entity.setInternationalAddresses(ds);
-        entity.setPoints(0L);
+        entity.setPoints(random.nextLong(5000));
         entity.setDateCreated(new Date());
         entity.setKmIdentity("KMI-"+random.nextInt(9)+"A"+random.nextInt(9)+"0S"+random.nextInt(9));
 
@@ -69,6 +70,8 @@ public class CustomerService {
 
     public CustomerEntity update(CustomerEntity entity,Long id){
         entity.setRoles(null);
+
+        //if(entity.getPassword())
 
 
 
